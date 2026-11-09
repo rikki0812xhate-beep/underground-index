@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#eeeae2">
+<title>UNDERGROUND INDEX — 你属于哪一种地下文化？</title>
+<style>
+:root{--paper:#eeeae2;--ink:#171715;--muted:#77736c;--line:#c9c3b8;--red:#b63b32;--white:#f8f6f1;--serif:"Iowan Old Style","Baskerville","Songti SC","Noto Serif SC",serif;--sans:Arial,"PingFang SC","Microsoft YaHei",sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);min-height:100vh}
+button{font:inherit;cursor:pointer} .shell{max-width:850px;margin:auto;padding:26px 24px 64px}
+.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--ink);padding:0 0 13px;font-size:10px;letter-spacing:.18em;text-transform:uppercase}
+.top span:last-child{color:var(--muted)} .hero{padding:10vh 0 7vh;min-height:470px;display:flex;flex-direction:column;justify-content:center}
+.kicker{font-size:10px;letter-spacing:.2em;color:var(--red);font-weight:700}
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(48px,10vw,92px);line-height:1.04;letter-spacing:-.06em;margin:24px 0 20px;max-width:720px}
+.sub{font-family:var(--serif);font-size:clamp(17px,3vw,23px);line-height:1.7;max-width:560px;color:#4f4b45}
+.hero-foot{display:flex;align-items:center;gap:18px;margin-top:42px;flex-wrap:wrap}
+.primary{background:var(--ink);color:var(--paper);border:1px solid var(--ink);padding:15px 22px;letter-spacing:.08em;font-size:12px;transition:.2s}
+.primary:hover{background:var(--red);border-color:var(--red)}.quiet{border:0;background:transparent;color:var(--muted);font-size:12px;text-decoration:underline;text-underline-offset:4px}
+.meta{font-size:10px;letter-spacing:.12em;color:var(--muted)}
+.manifesto{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 0;display:grid;grid-template-columns:1fr 2fr;gap:22px;font-size:12px;line-height:1.8}
+.manifesto strong{font-family:var(--serif);font-size:20px;font-weight:500}
+.hidden{display:none!important}
+.quiz{padding-top:38px;min-height:70vh}
+.progress-row{display:flex;justify-content:space-between;align-items:center;font-size:10px;letter-spacing:.14em;color:var(--muted)}
+.track{height:2px;background:#d4cec4;margin:14px 0 42px}.fill{height:2px;background:var(--red);width:0;transition:width .25s}
+.q-number{font-size:11px;color:var(--red);letter-spacing:.18em}
+.question{font-family:var(--serif);font-size:clamp(28px,6vw,46px);font-weight:500;line-height:1.35;letter-spacing:-.035em;margin:17px 0 30px;max-width:700px}
+.hint{font-size:12px;color:var(--muted);margin-bottom:20px}
+.answers{display:grid;gap:10px}
+.answer{width:100%;text-align:left;background:transparent;border:1px solid var(--line);padding:18px 18px;display:grid;grid-template-columns:32px 1fr;gap:10px;align-items:start;line-height:1.65;font-size:14px;transition:.18s}
+.answer .letter{font-family:var(--serif);font-size:18px;color:var(--red)}
+.answer:hover{border-color:var(--ink);background:rgba(255,255,255,.28);transform:translateX(3px)}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:32px}
+.back{background:transparent;border:0;color:var(--muted);font-size:12px;padding:12px 0}
+.result{padding-top:35px}
+.result-head{border-bottom:1px solid var(--ink);padding-bottom:15px;display:flex;justify-content:space-between;font-size:10px;letter-spacing:.15em}
+.poster{margin:28px 0 24px;background:#171715;color:#f0ece4;padding:clamp(24px,6vw,48px);min-height:390px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between}
+.poster:after{content:"";position:absolute;width:240px;height:240px;border:1px solid rgba(238,234,226,.23);border-radius:50%;right:-70px;top:80px;box-shadow:0 0 0 24px rgba(238,234,226,.04),0 0 0 48px rgba(238,234,226,.03)}
+.poster .serial{font-size:10px;letter-spacing:.2em;color:#c4bdb2;position:relative;z-index:1}
+.poster h2{font-family:var(--serif);font-size:clamp(44px,10vw,76px);font-weight:500;line-height:1;margin:35px 0 12px;position:relative;z-index:1}
+.poster .english{font-size:12px;letter-spacing:.18em;color:#c9bdb0;position:relative;z-index:1}
+.poster .tagline{font-family:var(--serif);font-size:19px;line-height:1.6;max-width:470px;margin:35px 0;position:relative;z-index:1}
+.poster .poster-bottom{display:flex;justify-content:space-between;border-top:1px solid #57534c;padding-top:14px;font-size:9px;letter-spacing:.15em;color:#bdb5a9;position:relative;z-index:1}
+.result-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:30px;margin:30px 0}
+.result h3{font-family:var(--serif);font-size:26px;font-weight:500;margin:0 0 14px}
+.result p{font-size:14px;line-height:1.95;color:#45413b;margin:0 0 15px}
+.small-label{font-size:10px;letter-spacing:.16em;color:var(--red);margin-bottom:12px;font-weight:700}
+.meter{margin:12px 0}.meter-top{display:flex;justify-content:space-between;font-size:11px;margin-bottom:6px}.bar{height:4px;background:#d8d2c8}.bar i{display:block;height:4px;background:var(--red)}
+.profile-list{border-top:1px solid var(--line);margin-top:22px}
+.profile-row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:12px}
+.note{background:#e4dfd5;padding:20px;margin:22px 0;font-family:var(--serif);font-size:18px;line-height:1.7}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:28px 0}.actions button{flex:1;min-width:145px}
+.secondary{background:transparent;border:1px solid var(--ink);padding:14px 18px;font-size:12px;letter-spacing:.06em}
+.secondary:hover{background:#e2ddd3}
+.footer{border-top:1px solid var(--ink);padding-top:14px;display:flex;justify-content:space-between;color:var(--muted);font-size:9px;letter-spacing:.14em;margin-top:60px}
+.disclaimer{font-size:10px;color:var(--muted);line-height:1.7;margin-top:20px}
+@media(max-width:620px){.shell{padding:20px 18px 44px}.hero{min-height:440px;padding:8vh 0 6vh}.manifesto{grid-template-columns:1fr;gap:8px}.result-grid{grid-template-columns:1fr;gap:18px}.poster{min-height:350px}.question{margin-bottom:24px}.answer{padding:16px}}
+@media print{body{background:#fff}.shell{max-width:none;padding:0}.top,.result-head,.result-grid,.note,.actions,.footer,.disclaimer{display:none!important}.poster{margin:0;min-height:100vh;print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="top"><span>Underground Index / 001</span><span>A field guide to cultural identity</span></header>
+  <main id="home">
+    <section class="hero">
+      <div class="kicker">A PERSONALITY × SUBCULTURE EXPERIMENT</div>
+      <h1>你属于哪一种<br>地下文化？</h1>
+      <div class="sub">不是你穿什么、听什么，而是当世界要求你成为某种人时，你选择如何回应。</div>
+      <div class="hero-foot"><button class="primary" id="start">开始测试&nbsp; ↗</button><span class="meta">30 QUESTIONS&nbsp; / &nbsp;10 ARCHETYPES&nbsp; / &nbsp;约 5 分钟</span></div>
+    </section>
+    <section class="manifesto"><strong>NO FIXED IDENTITY.</strong><div>文化不是制服，审美也不是标签。用三十个生活情境，寻找与你最接近的精神姿态。结果是一面镜子，不是一道判决。</div></section>
+  </main>
+  <main id="quiz" class="quiz hidden">
+    <div class="progress-row"><span id="progressText">QUESTION 01 / 30</span><span id="percent">03%</span></div>
+    <div class="track"><div class="fill" id="fill"></div></div>
+    <div class="q-number" id="qNum">NO. 01</div>
+    <div class="question" id="question"></div>
+    <div class="hint">选择最接近你真实反应的一项，不必选择听起来最酷的答案。</div>
+    <div class="answers" id="answers"></div>
+    <div class="nav"><button class="back" id="back">← 上一题</button><span class="meta">TRUST YOUR INSTINCT</span></div>
+  </main>
+  <main id="result" class="result hidden">
+    <div class="result-head"><span>PERSONAL CULTURE REPORT</span><span id="resultNo">INDEX / 001</span></div>
+    <div class="poster" id="poster">
+      <div class="serial">UNDERGROUND INDEX&nbsp;&nbsp; / &nbsp;&nbsp;PERSONAL FILE</div>
+      <div><h2 id="posterName">后朋克</h2><div class="english" id="posterEnglish">POST-PUNK</div><div class="tagline" id="posterTagline">在喧嚣之外，保留自己的判断。</div></div>
+      <div class="poster-bottom"><span id="posterCode">FILE NO. 001</span><span>NOT MADE TO FIT IN.</span></div>
+    </div>
+    <div class="result-grid">
+      <section><div class="small-label">YOUR CULTURAL ARCHETYPE</div><h3 id="resultTitle">后朋克倾向者</h3><p id="resultDesc"></p><div class="small-label" style="margin-top:25px">YOUR INNER CONTRADICTION</div><p id="resultTension"></p><div class="small-label" style="margin-top:25px">A NOTE TO YOU</div><p id="resultAdvice"></p></section>
+      <aside><div class="small-label">YOUR CULTURE MIX</div><div id="meters"></div><div class="profile-list"><div class="profile-row"><span>主导倾向</span><strong id="primaryScore">—</strong></div><div class="profile-row"><span>次级倾向</span><strong id="secondaryScore">—</strong></div></div></aside>
+    </div>
+    <div class="note" id="quote"></div>
+    <div class="actions"><button class="primary" id="savePoster">保存结果海报 ↗</button><button class="secondary" id="copyResult">复制结果文案</button><button class="secondary" id="retry">重新测试</button></div>
+    <div class="disclaimer">本测试为文化审美与自我探索向的娱乐内容，不是临床心理测量，也不代表对任何亚文化群体的完整定义。你的结果会受到答题情境与当下状态影响。</div>
+  </main>
+  <footer class="footer"><span>UNDERGROUND INDEX © 2026</span><span>AN OPEN-ENDED SELF PORTRAIT</span></footer>
+</div>
+<script>
+const profiles = [
+ {id:"punk",name:"朋克",en:"PUNK",title:"朋克式反叛者",tag:"规则不是答案，最多只是一个等待被追问的问题。",desc:"你对未经解释的权威、习以为常的规范和“大家都这样”的理由保持警惕。你更愿意直接表达不满，也相信行动比姿态更有力量。对你而言，独立不是显得与众不同，而是不把判断权轻易交出去。",tension:"你珍视自由，却可能把妥协都看成背叛；你擅长指出旧秩序的问题，却未必总愿意处理改变之后的复杂工作。",advice:"保留锋芒，也给自己留出修正立场的空间。真正的反叛不只是说“不”，也包括有能力创造一个更好的“是”。",quote:"“我不需要被允许，才开始成为自己。”",color:"#982f2b"},
+ {id:"goth",name:"哥特",en:"GOTH",title:"哥特式浪漫主义者",tag:"你不回避阴影，因为你知道美并不只发生在光亮处。",desc:"你对情绪的复杂性、时间的痕迹和事物的幽微面向有敏锐感受。你不急于把悲伤解释成积极，也不愿把脆弱修饰成励志故事。你在意深度、氛围与精神上的真实连接。",tension:"你渴望被理解，却可能习惯先把自己藏起来；你能凝视阴影，但有时会忘记世界也有轻盈、明亮和不必深究的时刻。",advice:"不必为了证明深刻而长期停留在沉重里。允许快乐不带寓意，也是一种勇气。",quote:"“我允许阴影存在，但不把它当作全部。”",color:"#4a4658"},
+ {id:"grunge",name:"垃圾摇滚",en:"GRUNGE",title:"Grunge 式真实主义者",tag:"不完美不是需要修复的错误，而是生活留下的纹理。",desc:"你对过度包装、精英姿态和被精心管理的形象缺乏耐心。你更信任未经修饰的表达，重视舒适、诚实和不必时刻表现良好的关系。你不太愿意为了获得认可而把自己打磨成标准样品。",tension:"你厌倦表演，却可能也因此低估了形式和努力的价值；你想摆脱期待，有时却会把自我放任误认为自由。",advice:"真实不等于拒绝照料自己。你可以不迎合目光，同时认真选择自己想要的生活质地。",quote:"“我不想成为一件被陈列得很漂亮的商品。”",color:"#77705f"},
+ {id:"newromantic",name:"新浪漫主义",en:"NEW ROMANTIC",title:"新浪漫主义造型者",tag:"身份不是被发现的，是可以被创造、排演与重写的。",desc:"你相信自我表达具有创造性。你会主动设计自己的气质、语言和生活场景，也享受戏剧性、华丽感与身份实验。对你而言，审美不是表面装饰，而是一种参与世界的方式。",tension:"你渴望自由地创造自己，却可能被自己精心打造的形象困住；当真实生活不够戏剧化时，你容易感到失望。",advice:"让风格成为表达，而不是牢笼。最迷人的自我创造，也包括允许自己偶尔不那么完整。",quote:"“我不是等待被定义的人，我是自己的编辑。”",color:"#9b6471"},
+ {id:"cyberpunk",name:"赛博朋克",en:"CYBERPUNK",title:"赛博朋克式怀疑者",tag:"在系统内部生活，不代表必须把系统当成自然法则。",desc:"你习惯追问技术、资本、平台和制度如何塑造人的选择。你对未来既好奇又警惕，既想使用新工具，也不愿放弃对工具背后权力结构的追问。你关心个体如何在庞大系统中保留自主性。",tension:"你看得见系统的限制，却可能因此对个体行动失去信心；你追求掌控感，也容易被信息与警觉消耗。",advice:"保持批判，但别让怀疑吞掉创造。未来并非只有被设计好的版本，你也可以成为设计者之一。",quote:"“系统可以读取数据，但不该替我决定意义。”",color:"#4d777b"},
+ {id:"dada",name:"达达主义",en:"DADA",title:"达达式解构者",tag:"当所有答案都显得理所当然，先检查问题是谁提出的。",desc:"你不太相信唯一正确的审美和固定的解释。你喜欢错位、反讽、拼贴与意外，也愿意拆开看似完整的概念。你对荒诞保持开放，因为你知道秩序有时也只是被反复练习的习惯。",tension:"你擅长拆解，却可能难以长期建设；你讨厌陈词滥调，有时也会为了避免俗套而拒绝真诚投入。",advice:"拆解之后，试着留下某些值得珍惜的东西。不是所有承诺都意味着被驯化。",quote:"“我怀疑既定答案，也怀疑自己的怀疑。”",color:"#a64b3f"},
+ {id:"surrealism",name:"超现实主义",en:"SURREALISM",title:"超现实主义漫游者",tag:"现实是一层表面，想象力让它出现裂缝。",desc:"你容易被隐喻、梦境、联想和不合常理的可能性吸引。你不急着把经验归纳成结论，愿意让矛盾、偶然和想象并存。你相信人的内在世界远比日常身份所能容纳的更辽阔。",tension:"你珍视可能性，却可能难以在现实中作出取舍；你有丰富的内在景观，但不一定总能把它翻译成行动。",advice:"不必牺牲想象力来适应现实，但可以为想象搭一座桥，让它有机会真正发生。",quote:"“我在现实的裂缝里，寻找另一种真实。”",color:"#6b7291"},
+ {id:"mod",name:"摩登派",en:"MOD",title:"Mod 式现代主义者",tag:"自由也可以有形式，克制同样可以是一种态度。",desc:"你重视比例、秩序、效率与审美的一致性。你不一定喜欢高调反抗，更倾向于通过选择、品位和生活方式建立边界。你对细节敏感，希望自己的世界干净、清晰、准确而有节奏。",tension:"你追求自洽，却可能对混乱和不确定性缺乏耐心；你不喜欢被定义，但也可能用自己的标准悄悄定义别人。",advice:"让秩序服务于生活，而不是让生活不断通过秩序的审核。偶尔的失控不一定损害品位。",quote:"“我用自己的尺度，整理自己的世界。”",color:"#667b78"},
+ {id:"hippie",name:"嬉皮士",en:"HIPPIE",title:"嬉皮士式自由理想者",tag:"生活不只有效率、占有和竞争，还有关系与感受。",desc:"你向往更松弛、更平等、更接近自然与真实关系的生活。你会质疑消费主义和成功学的单一标准，重视体验、共同体与精神自由。你希望生活不只是完成任务，也包含感受和连接。",tension:"你渴望温和与开放，却可能低估现实中的资源、边界和责任；你希望每个人自由，有时却难以面对彼此需求的冲突。",advice:"理想不必因为现实复杂就被放弃。给自由加上边界，才能让它不只属于最有余裕的人。",quote:"“我想要的不是更多，而是更真实地活着。”",color:"#7d8968"},
+ {id:"postpunk",name:"后朋克",en:"POST-PUNK",title:"后朋克式观察者",tag:"你站在热闹之外，不是因为没有感受，而是想保留判断。",desc:"你习惯观察群体情绪与社会规则之间的距离。你不轻易交出信任，也不急于加入任何阵营。你欣赏实验、冷静、复杂和带有距离感的表达，倾向于在主流叙事之外寻找自己的语言。",tension:"你想保持独立，却可能把距离感变成习惯性的隔绝；你擅长分析世界，但有时会错过亲身参与的机会。",advice:"观察是一种能力，参与也是。你不必放弃判断，才能允许自己与某些人、某些事真正发生关系。",quote:"“我不站在中心，也不打算停止观看。”",color:"#65717c"}
+];
+const groups = {
+ defy:["punk","dada","cyberpunk"],
+ shadow:["goth","grunge","postpunk"],
+ form:["newromantic","mod"],
+ dream:["surrealism","hippie"]
+};
+const questions = [
+"朋友们都默认接受一条规矩，但你觉得它没有道理。你更可能？",
+"进入一个所有人都熟悉、只有你不熟悉的圈子时，你会？",
+"你最难忍受别人用哪句话评价你？",
+"如果生活突然进入一段重复、稳定但乏味的时期，你会？",
+"你发现一个很受欢迎的观点存在明显漏洞，你会？",
+"面对一次必须做出的重大选择，你最依赖什么？",
+"你理想中的私人空间，首先应该满足什么？",
+"当一段关系开始要求你改变自己时，你会？",
+"你如何看待一个人精心经营自己的形象？",
+"在团队里，你最自然地承担哪种角色？",
+"如果可以删除一种社会默认的成功标准，你会选？",
+"你面对未知未来时，最接近哪种状态？",
+"看到一件极具争议、却让你着迷的艺术作品，你会？",
+"当别人误解你的动机时，你通常？",
+"你更愿意把有限的时间花在什么事情上？",
+"当你意识到自己正在重复上一代人的生活方式，你会？",
+"你希望别人记住你的哪一面？",
+"在冲突中，你最不愿意牺牲什么？",
+"如果可以短暂离开现有生活，你会选择？",
+"你如何面对一件没有明确答案的事情？",
+"当一个群体开始排斥异见者，你会？",
+"你最欣赏哪种人的生命状态？",
+"如果必须接受一套外部评价体系，你会？",
+"你发现自己曾经坚信的东西已经不再适用，你会？",
+"哪一种生活场景最让你感到自在？",
+"面对别人对你的期待，你更倾向于？",
+"你如何理解“有品位”这件事？",
+"如果有机会重新设计一项日常制度，你会从哪里开始？",
+"你希望自己的生活留下什么痕迹？",
+"当测试最后给你一个人格标签时，你最希望它？"
+];
+const answerSets = [
+ [
+ ["先问清楚：这条规矩保护了谁，又限制了谁？","defy"],
+ ["观察大家为什么需要它，暂时不急着表态。","shadow"],
+ ["想办法绕开它，给自己留出另一种做法。","form"],
+ ["把它当成一个实验，试试看还有没有别的可能。","dream"]
+ ],
+ [
+ ["先找到共同规则之外的入口，按自己的方式参与。","defy"],
+ ["安静观察一阵，确认这里的气氛和边界。","shadow"],
+ ["用穿着、谈吐或兴趣建立自己的辨识度。","form"],
+ ["从一个意想不到的话题开始，打开新的连接。","dream"]
+ ],
+ [
+ ["“你应该懂事一点。”","defy"],
+ ["“你怎么总是这么冷淡？”","shadow"],
+ ["“你太在意自己呈现出来的样子。”","form"],
+ ["“你想得太不切实际了。”","dream"]
+ ],
+ [
+ ["主动打破惯性，做一件能改变现状的事。","defy"],
+ ["允许自己暂时低能量，不强迫积极。","shadow"],
+ ["重新设计日常，让生活恢复节奏和质感。","form"],
+ ["给自己留白，等待新的兴趣和灵感出现。","dream"]
+ ],
+ [
+ ["公开提出质疑，并给出自己的理由。","defy"],
+ ["记下疑点，先观察它如何影响现实。","shadow"],
+ ["用更清楚、更有说服力的表达重新组织观点。","form"],
+ ["从另一个角度重写问题，而不是只争论答案。","dream"]
+ ],
+ [
+ ["我是否还能保有选择和行动的自由。","defy"],
+ ["这件事会不会让我失去重要的情感连接。","shadow"],
+ ["它是否符合我长期建立的生活方向。","form"],
+ ["它会打开哪些此前不存在的可能性。","dream"]
+ ],
+ [
+ ["能让我自由行动，不被不必要的规则打扰。","defy"],
+ ["有柔和的光线、安静角落和情绪缓冲区。","shadow"],
+ ["比例、物品和功能都恰到好处。","form"],
+ ["可以随时变化，容纳奇怪的收藏与想象。","dream"]
+ ],
+ [
+ ["直接说明边界，不接受单方面的改造。","defy"],
+ ["先拉开距离，确认自己真正的感受。","shadow"],
+ ["沟通彼此期待，重新设计相处方式。","form"],
+ ["尝试理解关系还能长出什么新形态。","dream"]
+ ],
+ [
+ ["只要不伤害别人，表达自己没有问题。","defy"],
+ ["我更在意它是否遮住了真实的情绪。","shadow"],
+ ["形象是一种创作，值得认真对待。","form"],
+ ["身份本来就可以流动，不必固定成一种样子。","dream"]
+ ],
+ [
+ ["提出问题，推动大家重新审视目标。","defy"],
+ ["识别气氛和风险，提供冷静判断。","shadow"],
+ ["整理流程，让复杂事情变得清晰漂亮。","form"],
+ ["提出跨界想法，把不同的人和事连接起来。","dream"]
+ ],
+ [
+ ["服从权威才算成熟。","defy"],
+ ["永远保持积极乐观。","shadow"],
+ ["人生必须持续向上、不断优化。","form"],
+ ["每个人都应该追求同一种幸福。","dream"]
+ ],
+ [
+ ["想办法影响未来，而不是等待它发生。","defy"],
+ ["保持警觉，为不确定性留出心理空间。","shadow"],
+ ["制定计划，把模糊目标变成可执行的步骤。","form"],
+ ["把未知看作一扇门，而不是一道障碍。","dream"]
+ ],
+ [
+ ["它是否挑战了某种被视为理所当然的秩序。","defy"],
+ ["它是否诚实地呈现了脆弱和阴影。","shadow"],
+ ["它的形式、构图和表达是否足够准确。","form"],
+ ["它是否让我看见现实之外的联系。","dream"]
+ ],
+ [
+ ["澄清事实，不让别人替我定义动机。","defy"],
+ ["不急于解释，保留自己的私人部分。","shadow"],
+ ["用稳定一致的行动回应，而非反复辩白。","form"],
+ ["把误解当作重新理解彼此的入口。","dream"]
+ ],
+ [
+ ["参与一个值得改变的现实问题。","defy"],
+ ["阅读、听音乐，和自己的内心相处。","shadow"],
+ ["制作、设计或整理一件具体的作品。","form"],
+ ["旅行、漫游，接触陌生的人和风景。","dream"]
+ ],
+ [
+ ["主动中断它，尝试另一种生活脚本。","defy"],
+ ["先承认自己为什么会走到这里。","shadow"],
+ ["保留有效的部分，重新调整生活结构。","form"],
+ ["想象一种此前没人替我安排过的可能。","dream"]
+ ],
+ [
+ ["敢于质疑不合理的东西。","defy"],
+ ["拥有复杂而诚实的内心。","shadow"],
+ ["把自己的生活过得有风格、有章法。","form"],
+ ["始终对世界保持好奇和想象力。","dream"]
+ ],
+ [
+ ["不被迫沉默的权利。","defy"],
+ ["不被要求随时解释情绪的空间。","shadow"],
+ ["彼此尊重边界与承诺。","form"],
+ ["允许关系不断变化和生长。","dream"]
+ ],
+ [
+ ["去一个规则少、可以重新开始的地方。","defy"],
+ ["去一个安静、陌生、不必社交的地方。","shadow"],
+ ["去一座设计精良、节奏清晰的城市。","form"],
+ ["去自然里漫游，暂时不安排目的地。","dream"]
+ ],
+ [
+ ["拆开问题，追问是谁设定了它。","defy"],
+ ["接受它可能长期伴随自己。","shadow"],
+ ["建立一套暂时可用的判断方法。","form"],
+ ["保留多种解释，不急着封闭答案。","dream"]
+ ],
+ [
+ ["我会站出来指出排斥行为的问题。","defy"],
+ ["我会支持被排斥的人，但不制造新的表演。","shadow"],
+ ["我会提出更公平、可执行的群体规则。","form"],
+ ["我会创造一个新的交流空间。","dream"]
+ ],
+ [
+ ["敢于承担后果、挑战不合理规则的人。","defy"],
+ ["不隐藏复杂感受、仍然温柔的人。","shadow"],
+ ["有原则、有审美、能把生活组织好的人。","form"],
+ ["不被现实耗尽想象力的人。","dream"]
+ ],
+ [
+ ["先研究它如何运作，再决定是否接受。","defy"],
+ ["只在必要时使用，不让它进入内心。","shadow"],
+ ["把它当工具，尽可能熟练地掌握。","form"],
+ ["尝试改写它，或者想象替代方案。","dream"]
+ ],
+ [
+ ["公开承认变化，不为了面子继续坚持。","defy"],
+ ["给失去的信念留一点哀悼时间。","shadow"],
+ ["重新整理证据，建立更稳固的判断。","form"],
+ ["把变化当作一次重新想象自己的机会。","dream"]
+ ],
+ [
+ ["可以自由进出、无需过度解释的公共空间。","defy"],
+ ["雨天、旧书店、低照度的安静房间。","shadow"],
+ ["有秩序、设计细节到位的城市街区。","form"],
+ ["海边、山路、陌生街道和没有计划的下午。","dream"]
+ ],
+ [
+ ["我会明确说出哪些期待不属于我。","defy"],
+ ["我会减少暴露，不把所有自己交出去。","shadow"],
+ ["我会选择性接受，并调整成适合自己的版本。","form"],
+ ["我会重新定义期待本身的含义。","dream"]
+ ],
+ [
+ ["有立场，能抵抗潮流和权威。","defy"],
+ ["有情绪深度，不回避复杂与不完美。","shadow"],
+ ["有辨识度，也经得起时间考验。","form"],
+ ["有想象力，能打开新的感知方式。","dream"]
+ ],
+ [
+ ["先检查它默认服务于谁，再重新分配权力。","defy"],
+ ["给疲惫的人留出喘息和拒绝的空间。","shadow"],
+ ["优化流程，让规则清楚、简单、可预测。","form"],
+ ["允许多种生活方式共存，不设唯一模板。","dream"]
+ ],
+ [
+ ["一种改变现实的行动或作品。","defy"],
+ ["一段诚实、不必被美化的生命经验。","shadow"],
+ ["一套独立、完整、经得起推敲的作品。","form"],
+ ["一些曾经不存在、后来被我想象出来的可能。","dream"]
+ ],
+ [
+ ["一个有锋芒、敢于拒绝的名字。","defy"],
+ ["一个能容纳复杂和矛盾的名字。","shadow"],
+ ["一个有风格、有形式感的名字。","form"],
+ ["一个不会限制我继续变化的名字。","dream"]
+ ]
+];
+const groupProfiles = {defy:["punk","dada","cyberpunk"],shadow:["goth","grunge","postpunk"],form:["newromantic","mod"],dream:["surrealism","hippie"]};
+const profileById = Object.fromEntries(profiles.map(p=>[p.id,p]));
+let current=0, answers=Array(30).fill(null), finalScores={};
+function show(id){document.getElementById("home").classList.toggle("hidden",id!=="home");document.getElementById("quiz").classList.toggle("hidden",id!=="quiz");document.getElementById("result").classList.toggle("hidden",id!=="result");window.scrollTo(0,0)}
+function renderQuestion(){
+ const q=questions[current];document.getElementById("progressText").textContent=`QUESTION ${String(current+1).padStart(2,"0")} / 30`;
+ document.getElementById("percent").textContent=`${Math.round((current+1)/30*100)}%`;document.getElementById("fill").style.width=`${(current+1)/30*100}%`;
+ document.getElementById("qNum").textContent=`NO. ${String(current+1).padStart(2,"0")}`;document.getElementById("question").textContent=q;
+ const host=document.getElementById("answers");host.innerHTML="";
+ const labels=["A","B","C","D"];
+ answerSets[current].forEach((a,i)=>{const b=document.createElement("button");b.className="answer";b.innerHTML=`<span class="letter">${labels[i]}</span><span>${a[0]}</span>`;b.addEventListener("click",()=>{answers[current]=i;if(current<29){current++;renderQuestion()}else{calculate();renderResult();show("result")}});if(answers[current]===i)b.style.borderColor="var(--red)";host.appendChild(b)});
+ document.getElementById("back").style.visibility=current===0?"hidden":"visible";
+}
+function calculate(){
+ const scores=Object.fromEntries(profiles.map(p=>[p.id,0]));
+ answers.forEach((choice,qi)=>{if(choice===null)return;const group=answerSets[qi][choice][1];const pool=groupProfiles[group];const selected=pool[(qi+Math.floor(qi/3))%pool.length];scores[selected]+=1;const secondary=pool[(pool.indexOf(selected)+1)%pool.length];scores[secondary]+=.22});
+ const max=Math.max(...Object.values(scores));profiles.forEach(p=>scores[p.id]=scores[p.id]/max*100);
+ finalScores=scores;
+}
+function renderResult(){
+ const ranked=profiles.slice().sort((a,b)=>finalScores[b.id]-finalScores[a.id]);const first=ranked[0],second=ranked[1],idx=String(Math.floor(Math.random()*899)+100);
+ document.getElementById("resultNo").textContent=`INDEX / ${idx}`;document.getElementById("posterName").textContent=first.name;document.getElementById("posterEnglish").textContent=first.en;document.getElementById("posterTagline").textContent=first.tag;document.getElementById("posterCode").textContent=`FILE NO. ${idx}`;
+ document.getElementById("resultTitle").textContent=first.title;document.getElementById("resultDesc").textContent=first.desc;document.getElementById("resultTension").textContent=first.tension;document.getElementById("resultAdvice").textContent=first.advice;document.getElementById("quote").textContent=first.quote;
+ document.getElementById("primaryScore").textContent=first.name;document.getElementById("secondaryScore").textContent=second.name;
+ const meters=document.getElementById("meters");meters.innerHTML="";
+ ranked.slice(0,5).forEach(p=>{const d=document.createElement("div");d.className="meter";const v=Math.round(finalScores[p.id]);d.innerHTML=`<div class="meter-top"><span>${p.name} / ${p.en}</span><span>${v}</span></div><div class="bar"><i style="width:${v}%;background:${p.color}"></i></div>`;meters.appendChild(d)});
+}
+function restart(){current=0;answers=Array(30).fill(null);finalScores={};show("home")}
+document.getElementById("start").addEventListener("click",()=>{current=0;show("quiz");renderQuestion()});
+document.getElementById("back").addEventListener("click",()=>{if(current>0){current--;renderQuestion()}});
+document.getElementById("retry").addEventListener("click",restart);
+document.getElementById("copyResult").addEventListener("click",async()=>{const p=profiles.slice().sort((a,b)=>finalScores[b.id]-finalScores[a.id]);const t=`我在 UNDERGROUND INDEX 测出的地下文化人格是：${p[0].name}（${p[0].en}），次级倾向：${p[1].name}。${p[0].tag}\n来测测你属于哪一种地下文化。`;try{await navigator.clipboard.writeText(t);alert("结果文案已复制！")}catch(e){prompt("复制下面的结果文案：",t)}});
+document.getElementById("savePoster").addEventListener("click",()=>window.print());
+</script>
+</body>
+</html>
